@@ -12,7 +12,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { analyzeData } from './lib/gemini';
+import { analyzeData } from './lib/gemini.js';
 
 export default function App() {
   const [csvInput, setCsvInput] = useState('');
