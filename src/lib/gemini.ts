@@ -1,10 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
-
-// 初始化 Google GenAI
-const ai = new GoogleGenAI({ 
-  apiKey: process.env.GEMINI_API_KEY as string 
-});
-
+// 客戶端 wrapper：呼叫本專案的 serverless endpoint `/api/analyze`
 const SYSTEM_INSTRUCTIONS = `你是一位專業的資料分析師。
 你的任務是接收一段 CSV 或表格結構的原始數據，理解其欄位意義，並提出精確的摘要報告與洞察。
 
@@ -23,25 +17,17 @@ const SYSTEM_INSTRUCTIONS = `你是一位專業的資料分析師。
 - **業務建議**：從數據中給出 1-2 個可以執行的商業建議。`;
 
 export async function analyzeData(csvContent: string) {
-  try {
-    const response = await ai.models.generateContent({
-      // 根據使用者要求使用最新 Pro 模型
-      // 由於環境目前建議使用 3.1 系列，這裡使用 gemini-3.1-pro-preview
-      model: "gemini-3.1-pro-preview",
-      contents: csvContent,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTIONS,
-        temperature: 0.1, // 降低隨機性，增加數據分析的準確性
-      },
-    });
+  const res = await fetch('/api/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ csv: csvContent, systemInstruction: SYSTEM_INSTRUCTIONS }),
+  });
 
-    if (!response.text) {
-      throw new Error("模型未返回任何結果");
-    }
-
-    return response.text;
-  } catch (error) {
-    console.error("AI Analysis Error:", error);
-    throw error;
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || '分析服務錯誤');
   }
+
+  const data = await res.json();
+  return data.result as string;
 }

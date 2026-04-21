@@ -7,9 +7,9 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
+    // Do NOT inject server-only secrets into the client bundle.
+    // Keep client env definitions minimal and explicit here.
+    define: {},
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
