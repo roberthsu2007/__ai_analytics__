@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 app.use(express.json({ limit: "20mb" })); // Increase limit for long transcripts
 
-const PORT = 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 // Lazy initialize Google GenAI so node doesn't crash on boot if key is missing
 let aiClient: GoogleGenAI | null = null;
@@ -17,13 +17,13 @@ function getGenAI(): GoogleGenAI {
   if (!aiClient) {
     const key = process.env.GEMINI_API_KEY;
     if (!key) {
-      throw new Error("無法偵測到 GEMINI_API_KEY。請前往 AI Studio 右上角「Settings > Secrets」設定您的金鑰！");
+      throw new Error("GEMINI_API_KEY is not set. Please add it to .env before starting the app.");
     }
     aiClient = new GoogleGenAI({
       apiKey: key,
       httpOptions: {
         headers: {
-          "User-Agent": "aistudio-build",
+          "User-Agent": "generic-express-server",
         },
       },
     });

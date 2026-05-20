@@ -2,19 +2,35 @@
 <img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
 </div>
 
-# Run and deploy your AI Studio app
+# AI Meeting Summarizer
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/bca6e8c4-0497-4091-bdce-e9a6e4ad6859
+This repository is a general Express + Vite fullstack app for meeting summarization.
+It is designed to run on a standard Express server and does not require Google AI Studio deployment tooling.
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. Create a `.env` file in the project root and add your environment variables.
+3. Set `GEMINI_API_KEY` in `.env` to your Gemini API key.
+4. Run the app in development:
    `npm run dev`
+
+## Build for production
+
+1. Build the frontend and backend:
+   `npm run build`
+2. Start the production server:
+   `npm start`
+
+## Environment variables
+
+Create a `.env` file with values like:
+
+```env
+PORT=3000
+NODE_ENV=development
+GEMINI_API_KEY=your_gemini_api_key_here
+```

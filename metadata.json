@@ -1,6 +1,0 @@
-{
-  "name": "AI 會議記錄生成與翻譯工具",
-  "description": "一個精美現代、功能齊全的 AI 會議彙整助理，能迅速從會議逐字稿中生成摘要、條列待辦目標（Action Items）、產出決議項目並提供多國語言翻譯。",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
